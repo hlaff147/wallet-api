@@ -2,6 +2,7 @@ package com.hlaff.wallet_api.controller;
 
 import com.hlaff.wallet_api.dto.LedgerEntryResponse;
 import com.hlaff.wallet_api.service.WalletService;
+import com.hlaff.loggingx.annotation.Loggable;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 
+@Loggable
 @RestController
 @RequestMapping("/api/v1/wallets/{id}/ledger")
 @RequiredArgsConstructor
