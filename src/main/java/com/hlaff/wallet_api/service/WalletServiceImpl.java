@@ -1,9 +1,8 @@
 package com.hlaff.wallet_api.service;
 
-// Descomente após instalar a biblioteca LoggingX localmente
-// import com.hlaff.loggingx.annotation.BusinessEvent;
-// import com.hlaff.loggingx.annotation.Loggable;
-// import com.hlaff.loggingx.annotation.Sensitive;
+import com.hlaff.loggingx.annotation.BusinessEvent;
+import com.hlaff.loggingx.annotation.Loggable;
+import com.hlaff.loggingx.annotation.Sensitive;
 import com.hlaff.wallet_api.dto.*;
 import com.hlaff.wallet_api.enums.OperationType;
 import com.hlaff.wallet_api.enums.WalletStatus;
@@ -40,10 +39,9 @@ public class WalletServiceImpl implements WalletService {
     private final BalanceMapper balanceMapper;
 
     @Override
-    // @Loggable
-    // @BusinessEvent(type = "Wallet", name = "WalletCreated", version = 1)
+    @Loggable
+    @BusinessEvent(type = "Wallet", name = "WalletCreated", version = 1)
     public WalletResponse createWallet(CreateWalletRequest req) {
-        // LoggingX irá logar automaticamente com @Loggable
         
         // Verifica se já existe uma carteira para o usuário com a mesma moeda
         var existingWallet = walletRepository.findByUserIdAndCurrency(req.userId(), req.currency());
@@ -64,8 +62,8 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    // @Loggable
-    public BalanceResponse getCurrentBalance(/* @Sensitive */ String walletId) {
+    @Loggable
+    public BalanceResponse getCurrentBalance(@Sensitive String walletId) {
         // LoggingX irá logar automaticamente com @Loggable
         
         Wallet wallet = findWalletById(walletId);
@@ -73,8 +71,8 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    // @Loggable
-    public BalanceResponse getHistoricalBalance(/* @Sensitive */ String walletId, Instant at) {
+    @Loggable
+    public BalanceResponse getHistoricalBalance(@Sensitive String walletId, Instant at) {
         // LoggingX irá logar automaticamente com @Loggable
         
         Wallet wallet = findWalletById(walletId);
@@ -96,9 +94,9 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    // @Loggable
-    // @BusinessEvent(type = "Transaction", name = "DepositCompleted", version = 1)
-    public LedgerEntryResponse deposit(/* @Sensitive */ String walletId, AmountRequest req) {
+    @Loggable
+    @BusinessEvent(type = "Transaction", name = "DepositCompleted", version = 1)
+    public LedgerEntryResponse deposit(@Sensitive String walletId, AmountRequest req) {
         // LoggingX irá logar automaticamente com @Loggable
         
         Wallet wallet = findWalletById(walletId);
@@ -120,9 +118,9 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    // @Loggable
-    // @BusinessEvent(type = "Transaction", name = "WithdrawCompleted", version = 1)
-    public LedgerEntryResponse withdraw(/* @Sensitive */ String walletId, AmountRequest req) {
+    @Loggable
+    @BusinessEvent(type = "Transaction", name = "WithdrawCompleted", version = 1)
+    public LedgerEntryResponse withdraw(@Sensitive String walletId, AmountRequest req) {
         // LoggingX irá logar automaticamente com @Loggable
         
         Wallet wallet = findWalletById(walletId);
@@ -149,8 +147,8 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    // @Loggable
-    // @BusinessEvent(type = "Transaction", name = "TransferCompleted", version = 1)
+    @Loggable
+    @BusinessEvent(type = "Transaction", name = "TransferCompleted", version = 1)
     public Map<String, Object> transfer(TransferRequest req) {
         // LoggingX irá logar automaticamente com @Loggable
         
@@ -210,8 +208,8 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    // @Loggable(logArgs = false)
-    public Page<LedgerEntryResponse> listLedger(/* @Sensitive */ String walletId, Instant from, Instant to, Pageable pageable) {
+    @Loggable(logArgs = false)
+    public Page<LedgerEntryResponse> listLedger(@Sensitive String walletId, Instant from, Instant to, Pageable pageable) {
         // LoggingX irá logar automaticamente com @Loggable
         
         // Verifica se a carteira existe
