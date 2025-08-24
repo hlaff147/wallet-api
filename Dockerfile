@@ -19,7 +19,8 @@ COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
 
 # Download das dependências (cache layer)
-RUN ./mvnw dependency:go-offline -B
+RUN chmod +x ./mvnw
+RUN ./mvnw dependency:go-offline -BB
 
 # Copiar código fonte
 COPY src/ src/
@@ -29,8 +30,8 @@ RUN ./mvnw clean package -DskipTests -B && \
     java -Djarmode=layertools -jar target/*.jar extract
 
 # Runtime stage
-FROM openjdk:17-jre-slim
-
+FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:17-jre
 # Instalar curl para health checks
 RUN apt-get update && apt-get install -y \
     curl \

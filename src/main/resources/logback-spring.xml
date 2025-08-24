@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Propriedades -->
+    <springProperty scope="context" name="service" source="loggingx.service" defaultValue="wallet-api"/>
+    <springProperty scope="context" name="env" source="loggingx.env" defaultValue="dev"/>
+    <springProperty scope="context" name="version" source="loggingx.version" defaultValue="unknown"/>
+
+    <!-- Appender Console JSON para produção -->
+    <appender name="STDOUT_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"service":"${service}","env":"${env}","version":"${version}"}</customFields>
+            <fieldNames>
+                <timestamp>@timestamp</timestamp>
+                <level>level</level>
+                <message>message</message>
+                <logger>logger</logger>
+                <thread>thread</thread>
+            </fieldNames>
+            <includeContext>true</includeContext>
+            <includeMdc>true</includeMdc>
+        </encoder>
+    </appender>
+
+    <!-- Appender Console simples para desenvolvimento -->
+    <appender name="STDOUT_SIMPLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%X{correlationId:-}] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Appender assíncrono para melhor performance -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>10240</queueSize>
+        <includeCallerData>false</includeCallerData>
+        <appender-ref ref="STDOUT_JSON"/>
+    </appender>
+
+    <!-- Configuração específica para ambiente de desenvolvimento -->
+    <springProfile name="!prod">
+        <root level="INFO">
+            <appender-ref ref="STDOUT_SIMPLE"/>
+        </root>
+        
+        <!-- Logs específicos da aplicação em DEBUG -->
+        <logger name="com.hlaff.wallet_api" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT_SIMPLE"/>
+        </logger>
+        
+        <!-- Reduzir logs do MongoDB -->
+        <logger name="org.mongodb" level="WARN"/>
+        <logger name="org.springframework.data.mongodb" level="WARN"/>
+    </springProfile>
+
+    <!-- Configuração para produção -->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="ASYNC"/>
+        </root>
+        
+        <!-- Logs específicos da aplicação -->
+        <logger name="com.hlaff.wallet_api" level="INFO" additivity="false">
+            <appender-ref ref="ASYNC"/>
+        </logger>
+        
+        <!-- Reduzir logs desnecessários em produção -->
+        <logger name="org.mongodb" level="ERROR"/>
+        <logger name="org.springframework.data.mongodb" level="ERROR"/>
+        <logger name="org.springframework.web" level="WARN"/>
+        <logger name="org.apache.catalina" level="WARN"/>
+    </springProfile>
+</configuration>

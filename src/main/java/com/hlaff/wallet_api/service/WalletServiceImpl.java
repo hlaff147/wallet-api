@@ -1,5 +1,9 @@
 package com.hlaff.wallet_api.service;
 
+// Descomente após instalar a biblioteca LoggingX localmente
+// import com.hlaff.loggingx.annotation.BusinessEvent;
+// import com.hlaff.loggingx.annotation.Loggable;
+// import com.hlaff.loggingx.annotation.Sensitive;
 import com.hlaff.wallet_api.dto.*;
 import com.hlaff.wallet_api.enums.OperationType;
 import com.hlaff.wallet_api.enums.WalletStatus;
@@ -36,8 +40,10 @@ public class WalletServiceImpl implements WalletService {
     private final BalanceMapper balanceMapper;
 
     @Override
+    // @Loggable
+    // @BusinessEvent(type = "Wallet", name = "WalletCreated", version = 1)
     public WalletResponse createWallet(CreateWalletRequest req) {
-        log.info("Criando carteira para usuário: {} com moeda: {}", req.userId(), req.currency());
+        // LoggingX irá logar automaticamente com @Loggable
         
         // Verifica se já existe uma carteira para o usuário com a mesma moeda
         var existingWallet = walletRepository.findByUserIdAndCurrency(req.userId(), req.currency());
@@ -52,22 +58,24 @@ public class WalletServiceImpl implements WalletService {
         wallet.setUpdatedAt(wallet.getCreatedAt());
         
         wallet = walletRepository.save(wallet);
-        log.info("Carteira criada com sucesso: {}", wallet.getId());
+        // Log de sucesso será gerado automaticamente pelo @BusinessEvent
         
         return walletMapper.toResponse(wallet);
     }
 
     @Override
-    public BalanceResponse getCurrentBalance(String walletId) {
-        log.info("Buscando saldo atual da carteira: {}", walletId);
+    // @Loggable
+    public BalanceResponse getCurrentBalance(/* @Sensitive */ String walletId) {
+        // LoggingX irá logar automaticamente com @Loggable
         
         Wallet wallet = findWalletById(walletId);
         return balanceMapper.toCurrentBalance(wallet);
     }
 
     @Override
-    public BalanceResponse getHistoricalBalance(String walletId, Instant at) {
-        log.info("Buscando saldo histórico da carteira: {} em: {}", walletId, at);
+    // @Loggable
+    public BalanceResponse getHistoricalBalance(/* @Sensitive */ String walletId, Instant at) {
+        // LoggingX irá logar automaticamente com @Loggable
         
         Wallet wallet = findWalletById(walletId);
         
@@ -88,8 +96,10 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public LedgerEntryResponse deposit(String walletId, AmountRequest req) {
-        log.info("Realizando depósito na carteira: {} valor: {}", walletId, req.amount());
+    // @Loggable
+    // @BusinessEvent(type = "Transaction", name = "DepositCompleted", version = 1)
+    public LedgerEntryResponse deposit(/* @Sensitive */ String walletId, AmountRequest req) {
+        // LoggingX irá logar automaticamente com @Loggable
         
         Wallet wallet = findWalletById(walletId);
         validateWalletActive(wallet);
@@ -105,13 +115,15 @@ public class WalletServiceImpl implements WalletService {
                 walletId, null, OperationType.DEPOSIT, req.amount(), newBalance, req.metadata()
         );
         
-        log.info("Depósito realizado com sucesso. Novo saldo: {}", newBalance);
+        // Log de sucesso será gerado automaticamente pelo @BusinessEvent
         return ledgerEntryMapper.toResponse(ledgerEntry);
     }
 
     @Override
-    public LedgerEntryResponse withdraw(String walletId, AmountRequest req) {
-        log.info("Realizando saque da carteira: {} valor: {}", walletId, req.amount());
+    // @Loggable
+    // @BusinessEvent(type = "Transaction", name = "WithdrawCompleted", version = 1)
+    public LedgerEntryResponse withdraw(/* @Sensitive */ String walletId, AmountRequest req) {
+        // LoggingX irá logar automaticamente com @Loggable
         
         Wallet wallet = findWalletById(walletId);
         validateWalletActive(wallet);
@@ -132,14 +144,15 @@ public class WalletServiceImpl implements WalletService {
                 walletId, null, OperationType.WITHDRAW, req.amount(), newBalance, req.metadata()
         );
         
-        log.info("Saque realizado com sucesso. Novo saldo: {}", newBalance);
+        // Log de sucesso será gerado automaticamente pelo @BusinessEvent
         return ledgerEntryMapper.toResponse(ledgerEntry);
     }
 
     @Override
+    // @Loggable
+    // @BusinessEvent(type = "Transaction", name = "TransferCompleted", version = 1)
     public Map<String, Object> transfer(TransferRequest req) {
-        log.info("Realizando transferência de {} para {} valor: {}", 
-                req.fromWalletId(), req.toWalletId(), req.amount());
+        // LoggingX irá logar automaticamente com @Loggable
         
         if (req.fromWalletId().equals(req.toWalletId())) {
             throw new BusinessException("Carteira de origem e destino não podem ser iguais");
@@ -179,7 +192,7 @@ public class WalletServiceImpl implements WalletService {
                 req.toWalletId(), transferId, OperationType.TRANSFER_CREDIT, req.amount(), newToBalance, req.metadata()
         );
         
-        log.info("Transferência realizada com sucesso. Transfer ID: {}", transferId);
+        // Log de sucesso será gerado automaticamente pelo @BusinessEvent
         
         return Map.of(
                 "transferId", transferId,
@@ -197,8 +210,9 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Page<LedgerEntryResponse> listLedger(String walletId, Instant from, Instant to, Pageable pageable) {
-        log.info("Listando extrato da carteira: {} de {} até {}", walletId, from, to);
+    // @Loggable(logArgs = false)
+    public Page<LedgerEntryResponse> listLedger(/* @Sensitive */ String walletId, Instant from, Instant to, Pageable pageable) {
+        // LoggingX irá logar automaticamente com @Loggable
         
         // Verifica se a carteira existe
         findWalletById(walletId);

@@ -22,3 +22,42 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+# LoggingX Configuration
+loggingx:
+  service: wallet-api              # Nome do serviço
+  env: ${ENVIRONMENT:dev}          # Ambiente (dev, qa, prod)
+  version: ${APP_VERSION:0.0.1-SNAPSHOT}  # Versão da aplicação
+  
+  # Chaves a serem mascaradas nos logs
+  redact-keys: 
+    - password
+    - token 
+    - cpf
+    - email
+    - secret
+    - accountNumber
+    - balance
+    - amount
+    
+  # Configurações HTTP
+  http:
+    server:
+      enabled: true
+      log-body: false    # Não logar corpo das requisições em produção
+    client: 
+      enabled: true
+      log-body: false
+      
+  # Configurações MongoDB 
+  mongo:
+    enabled: true
+    slow-queries-only: true
+    slow-threshold-ms: 1000
+    
+  # Sampling para controle de volume de logs
+  sampling:
+    default-percent: 100  # 100% em desenvolvimento
+    rules:
+      - pattern: ".*HealthCheck.*" 
+        percent: 10       # 10% para health checks

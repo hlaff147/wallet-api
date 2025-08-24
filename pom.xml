@@ -75,6 +75,33 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<!-- LoggingX Spring Boot Starter -->
+		<!-- Dependências necessárias para LoggingX funcionarem até biblioteca estar disponível -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>8.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.ttddyy</groupId>
+			<artifactId>datasource-proxy</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<!-- LoggingX Spring Boot Starter - descomente após instalar localmente -->
+		
+		<dependency>
+			<groupId>com.hlaff</groupId>
+			<artifactId>loggingx-spring-boot-starter</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
