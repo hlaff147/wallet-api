@@ -8,10 +8,14 @@ LABEL description="Wallet API - Sistema de carteiras digitais"
 
 # Definir diretório de trabalho
 WORKDIR /app
+COPY libs/loggingx-spring-boot-starter.jar /app/libs/
 
 # Copiar POM e baixar dependências (cache layer)
 COPY pom.xml ./
-RUN mvn -B dependency:go-offline
+    # Copiar JAR local da lib
+    COPY libs/loggingx-spring-boot-starter.jar /app/libs/
+    # Download das dependências (cache layer)
+    RUN mvn -B dependency:go-offline
 
 # Copiar código fonte
 COPY src/ src/

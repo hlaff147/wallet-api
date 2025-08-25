@@ -44,10 +44,10 @@ loggingx:
   http:
     server:
       enabled: true
-      log-body: false    # Não logar corpo das requisições em produção
+      log-body: true
     client: 
       enabled: true
-      log-body: false
+      log-body: true
       
   # Configurações MongoDB 
   mongo:

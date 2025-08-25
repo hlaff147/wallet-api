@@ -4,7 +4,7 @@ import com.hlaff.wallet_api.dto.AmountRequest;
 import com.hlaff.wallet_api.dto.LedgerEntryResponse;
 import com.hlaff.wallet_api.dto.TransferRequest;
 import com.hlaff.wallet_api.service.WalletService;
-import com.hlaff.loggingx.annotation.Loggable;
+import com.hlaff.loggingx.spring.aop.Loggable;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

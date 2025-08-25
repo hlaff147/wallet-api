@@ -1,8 +1,8 @@
 package com.hlaff.wallet_api.service;
 
-import com.hlaff.loggingx.annotation.BusinessEvent;
-import com.hlaff.loggingx.annotation.Loggable;
-import com.hlaff.loggingx.annotation.Sensitive;
+import com.hlaff.loggingx.spring.aop.BusinessEvent;
+import com.hlaff.loggingx.spring.aop.Loggable;
+import com.hlaff.loggingx.spring.aop.Sensitive;
 import com.hlaff.wallet_api.dto.*;
 import com.hlaff.wallet_api.enums.OperationType;
 import com.hlaff.wallet_api.enums.WalletStatus;

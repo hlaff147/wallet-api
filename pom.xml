@@ -100,6 +100,8 @@
 			<groupId>com.hlaff</groupId>
 			<artifactId>loggingx-spring-boot-starter</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/loggingx-spring-boot-starter.jar</systemPath>
 		</dependency>
 		
 
