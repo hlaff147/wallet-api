@@ -19,6 +19,7 @@ build/
 
 # JAR/WAR/EAR files
 *.jar
+!libs/loggingx-spring-boot-starter.jar
 *.war
 *.ear
 *.zip
