@@ -244,7 +244,7 @@ docker-compose logs -f
 - ✅ **Scripts inteligentes** de start/stop
 - ✅ **Configuração otimizada** para produção
 
-**📖 Documentação completa**: [DOCKER.md](DOCKER.md)
+**📖 Documentação completa**: [docs/development.md](docs/development.md)
 
 ---
 
@@ -365,7 +365,7 @@ src/main/java/com/hlaff/wallet_api/
 
 </div>
 
-**📖 Guia completo**: [TESTING.md](TESTING.md)
+**📖 Guia completo**: [docs/development.md](docs/development.md)
 
 ---
 
@@ -379,10 +379,9 @@ src/main/java/com/hlaff/wallet_api/
 
 | Documento | Descrição |
 |-----------|-----------|
-| **[CURL_EXAMPLES.md](CURL_EXAMPLES.md)** | 150+ exemplos práticos de uso da API |
-| **[DOCKER.md](DOCKER.md)** | Guia completo para Docker e produção |
-| **[TESTING.md](TESTING.md)** | Estratégias e execução de testes |
-| **[API.md](API.md)** | Documentação técnica dos endpoints |
+| **[docs/README.md](docs/README.md)** | Visão geral e arquitetura |
+| **[docs/api.md](docs/api.md)** | Endpoints e exemplos de uso |
+| **[docs/development.md](docs/development.md)** | Docker, LoggingX e testes |
 | **[docs/architecture.puml](docs/architecture.puml)** | Código fonte do diagrama UML |
 
 ---
@@ -421,7 +420,7 @@ curl "http://localhost:8080/api/v1/wallets/$WALLET_2/ledger"
 
 </details>
 
-**📖 Mais exemplos**: [CURL_EXAMPLES.md](CURL_EXAMPLES.md)
+**📖 Mais exemplos**: [docs/api.md](docs/api.md)
 
 ---
 

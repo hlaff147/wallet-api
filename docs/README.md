@@ -4,7 +4,13 @@ Esta pasta contém a documentação técnica e diagramas do projeto.
 
 ## 📁 Arquivos
 
+- **[api.md](api.md)** - Endpoints e exemplos de uso
+- **[development.md](development.md)** - Docker, LoggingX e testes
 - **[architecture.puml](architecture.puml)** - Diagrama UML da arquitetura do sistema
+
+## 🗺️ Visão Geral do Projeto
+
+A **Wallet API** é uma aplicação Spring Boot para gerenciamento de carteiras digitais com arquitetura em camadas, auditoria de operações e testes abrangentes.
 
 ## 🎨 Como Visualizar o Diagrama PlantUML
 
